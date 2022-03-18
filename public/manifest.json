@@ -1,0 +1,18 @@
+{
+  "short_name": "ABH",
+  "name": "Advanced Browser History",
+  "description": "A Chrome extension to capture more information about your browsing history.",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "service_worker": "./static/js/content.js"
+  },
+  "icons": {
+    "192": "./static/media/logo192.png",
+    "512": "./static/media/logo512.png"
+  },
+  "permissions": ["tabs", "activeTab", "storage", "scripting"]
+}
