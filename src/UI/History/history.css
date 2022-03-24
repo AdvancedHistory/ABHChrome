@@ -21,7 +21,7 @@
     justify-content: flex-end;
 }
 
-#delete_box{
+.top_box{
     display: flex;
     width: 2ch;
     justify-content: center;
@@ -30,7 +30,7 @@
     margin: 2px;
 }
 
-#delete_box:hover{
+.top_box:hover{
     background: var(--alt);
     color: var(--back);
 }

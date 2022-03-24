@@ -1,15 +1,29 @@
 @import "../../theme.css";
 
 #searchbar {
-    background: var(--text);
     display: flex;
     justify-content: flex-start;
     border-radius: 0.5em;
     overflow: hidden;
+    position: relative;
 }
 
-input {
+#searchbar>div {
+    background: var(--text);
+    opacity: 0.1;
+    width: 100%;
+    height: 1em;
+    position: absolute;
+}
+
+#search_box {
+    color: var(--alt);
     background: none;
     border: none;
-    margin:  0.1em 1em;
+    width: 100%;
+    margin:  0.1em .5em;
+    z-index: 1;
+}
+#search_box:focus{
+    outline: none;
 }

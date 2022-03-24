@@ -1,10 +1,11 @@
-import React, {FC} from "react";
+import React, {ChangeEvent, FC} from "react";
 import "./search.css";
 
-const Search: FC = () => {
+const Search: FC<{string_update:(arg0:string)=>void}> = ({string_update}) => {
     return (
             <div id="searchbar">
-                <input type='text' />
+                <input id="search_box" type='text' onChange={(e: ChangeEvent<HTMLInputElement>) => string_update(e.target.value)}/>
+                <div />
             </div>
     );
 };
