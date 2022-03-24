@@ -1,11 +1,10 @@
 import React, {FC, useState, useEffect}  from "react";
 import Search from "../Search/search";
-import Filter  from "../Filter/filter";
+//import Filter from "../Filter/filter";
 import "./history.css";
 
-
 type history_element = {
-    date:string, time:string, title:string, link:string,
+   date:string, time:string, title:string, link:string,
 };
 
 const display = (item:history_element, key:number) => {
@@ -67,7 +66,7 @@ const History: FC = () => {
                 </div>*/}
             </div>
 
-            {filter_page? <Filter  start_date={update_start} end_date={update_end}/>:""}
+            {/*TODO FIX ME // filter_page? <Filter  start_date={update_start} end_date={update_end}/>:""*/}
 
             <div id="data_header">
                 <div id="date">Date</div>

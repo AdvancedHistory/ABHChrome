@@ -8,11 +8,19 @@
     "default_popup": "index.html"
   },
   "background": {
-    "service_worker": "./static/js/content.js"
+    "service_worker": "./static/js/background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": [
+        "./static/js/content.js"
+      ]
+    }
+  ],
   "icons": {
     "192": "./static/media/logo192.png",
     "512": "./static/media/logo512.png"
   },
-  "permissions": ["tabs", "activeTab", "storage", "scripting"]
+  "permissions": ["tabs", "activeTab", "storage", "scripting", "history", "alarms"]
 }

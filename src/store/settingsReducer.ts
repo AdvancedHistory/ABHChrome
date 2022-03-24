@@ -1,15 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type SettingsState = {
-    settings: {
-        version: string,
-    },
-};
-
 const settingsInitialState: SettingsState = {
-    settings: {
-        version: '0.1.0',
-    },
+    version: '0.1.0',
+    imported: false,
 };
 
 const settingsSlice = createSlice({
@@ -17,11 +10,15 @@ const settingsSlice = createSlice({
     initialState: settingsInitialState,
     reducers: {
         RESET_SETTINGS: (state) => {
-            state.settings = settingsInitialState.settings;
+            state.version = settingsInitialState.version;
+            state.imported = settingsInitialState.imported;
+        },
+        UPDATE_IMPORTED: (state) => {
+            state.imported = true;
         },
     },
 });
 
-export const { RESET_SETTINGS } = settingsSlice.actions;
+export const { RESET_SETTINGS, UPDATE_IMPORTED } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

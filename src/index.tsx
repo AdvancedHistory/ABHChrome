@@ -9,23 +9,13 @@ import store from "./store";
 import App from './App';
 import './index.css';
 
-
-// This code sets up a persistor and store for the extension.
-// ReactDOM.render(
-//     <React.StrictMode>
-//         <Provider store={store}>
-//             <PersistGate loading={<div>Loading...</div>} persistor={persistStore(store)}>
-//                 <App />
-//             </PersistGate>]
-//         </Provider>
-//         <App />
-//     </React.StrictMode>,
-//     document.getElementById('root')
-// );
-
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Provider store={store}>
+            <PersistGate loading={<div>Loading...</div>} persistor={persistStore(store)}>
+                <App />
+            </PersistGate>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

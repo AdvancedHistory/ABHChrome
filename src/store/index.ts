@@ -30,9 +30,9 @@ const store = configureStore({
     }).concat(thunk),
 });
 
-wrapStore(store, {
-    portName: 'ABH_STORE',
-});
+// wrapStore(store, {
+//     portName: 'ABH_STORE',
+// });
 
 export type RootState = ReturnType<typeof store.getState>;
 
