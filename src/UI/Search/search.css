@@ -1,0 +1,15 @@
+@import "../../theme.css";
+
+#searchbar {
+    background: var(--text);
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+
+input {
+    background: none;
+    border: none;
+    margin:  0.1em 1em;
+}

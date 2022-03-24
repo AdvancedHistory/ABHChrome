@@ -1,0 +1,75 @@
+@import "../../theme.css";
+
+.history {
+    font-size: 0.7em;
+}
+
+#topbar {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr 1fr;
+    align-items: center;
+    text-align: left;
+}
+
+#topbar>div {
+
+}
+#delete {
+    grid-column: 4;
+    display: flex;
+
+    justify-content: flex-end;
+}
+
+#delete_box{
+    display: flex;
+    width: 2ch;
+    justify-content: center;
+    border-radius: .5em;
+    border: solid var(--alt);
+    margin: 2px;
+}
+
+#delete_box:hover{
+    background: var(--alt);
+    color: var(--back);
+}
+
+#data_header {
+    display: grid;
+    grid-template-columns: 0.4fr 0.4fr 1fr 1fr;
+    border-top: solid var(--alt);
+}
+
+#data_header>* {
+    border-left: solid #0009;
+}
+
+#data_header::after {
+    content: "-";
+    display: block;
+    background: black;
+    height: 0.2em;
+    opacity: 0.5;
+    grid-column-start: span 4;
+}
+
+#data {
+    font-size: 0.8em;
+}
+.row {
+    display: grid;
+    background-color: var(--back);
+    grid-template-columns: 0.4fr 0.4fr 1fr 1fr;
+}
+.row>*{
+    overflow: hidden;
+    border-left: solid #0009;
+}
+
+.row:nth-child(2n+1) {
+    filter: brightness(150%);
+}
+.row:nth-child(2n) {
+    filter: brightness(90%);
+}

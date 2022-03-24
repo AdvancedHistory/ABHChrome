@@ -11,18 +11,24 @@ import './index.css';
 
 
 // This code sets up a persistor and store for the extension.
+// ReactDOM.render(
+//     <React.StrictMode>
+//         <Provider store={store}>
+//             <PersistGate loading={<div>Loading...</div>} persistor={persistStore(store)}>
+//                 <App />
+//             </PersistGate>]
+//         </Provider>
+//         <App />
+//     </React.StrictMode>,
+//     document.getElementById('root')
+// );
+
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <PersistGate loading={<div>Loading...</div>} persistor={persistStore(store)}>
-                <App />
-            </PersistGate>
-        </Provider>
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
-
-
 
 // This would allow for communication between the extension and the background script.
 // This would replace the above code if we could get it to work.

@@ -1,28 +1,30 @@
-import React from 'react';
-// @ts-ignore
-import logo from './logo.svg';
+import React, {FC, useState} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <button>Click me</button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import History from "./UI/History/history";
+import Visualize from "./UI/Visualize/visualize";
+import Settings from "./UI/Settings/settings";
+import Bar from "./UI/Bar/bar";
+
+const App: FC = () => {
+    enum Pages {
+        History=0,
+        Visualize=1,
+        Settings=2,
+    };
+
+    const [active_tab, switch_tab]  = useState<number>(0);
+
+    return (
+        <div className="App">
+            <Bar  active={active_tab} update={switch_tab}/>
+            <div id="bottom">
+                {active_tab === Pages.History ? <History /> : ""}
+                {active_tab === Pages.Visualize ? <Visualize /> : ""}
+                {active_tab === Pages.Settings ? <Settings /> : ""}
+            </div>
+        </div>
+    );
+};
 
 export default App;
