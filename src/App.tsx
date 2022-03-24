@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './App.css';
 import History from "./UI/History/history";
 import Visualize from "./UI/Visualize/visualize";
@@ -7,7 +7,6 @@ import Bar from "./UI/Bar/bar";
 
 import { useAppDispatch, useAppSelector } from "./store";
 import { IMPORT_HISTORY } from "./store/historyReducer";
-import { UPDATE_IMPORTED } from "./store/settingsReducer";
 
 type AppProps = { history: HistoryState , settings: SettingsState }
 
@@ -19,19 +18,30 @@ enum Pages {
 
 const App: FC = () => {
 
+    const dispatch = useAppDispatch();
+
+    const { entries } = useAppSelector((state) => state.history );
+
     const [active_tab, switch_tab]  = useState<number>(0);
     const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
 
     useEffect(() => {
-
-        chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
-            if (response) {
-                set_browser_history(response.history);
-                console.log("App script got history from service worker:");
-                console.log(response.history);
-
-            }
-        });
+        console.log("Entries: ", entries);
+        if(entries && entries.length === 0) {
+            console.log("Importing history from browser");
+            chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
+                if (response) {
+                    set_browser_history(response.history);
+                    console.log("App script got history from service worker");
+                    console.log(response.history);
+                    dispatch(IMPORT_HISTORY(response.history));
+                }
+            });
+        } else {
+            console.log("App got history from redux");
+            // @ts-ignore
+            set_browser_history(entries);
+        }
     }, []);
 
     return (

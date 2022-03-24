@@ -19,13 +19,6 @@ const display = (item:history_element, key:number) => {
 }
 
 const History: FC<{browser_history:any[]}> = ({browser_history}) => {
-    const dumb_data:history_element[]  = [
-        {date:"1/22/2020",time:"12:05",title:"HTML Links Hyperlinks",link:"https://www.w3schools.com/html/"},
-        {date:"1/22/2020",time:"12:06",title:"Slack",link:"slack.com"},
-        {date:"1/22/2020",time:"12:07",title:"Slack",link:"slack.com"},
-        {date:"1/22/2020",time:"12:08",title:"Slack",link:"slack.com"},
-        {date:"1/22/2020",time:"12:09",title:"Slack",link:"slack.com"},
-    ];
 
     const [search_string, update_search] = useState<string>("");
     const [start_date, update_start] = useState<string>("");

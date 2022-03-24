@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from "redux-persist";
 import {configureStore } from "@reduxjs/toolkit";
-import { wrapStore } from 'webext-redux';
 import localforage from 'localforage';
 import thunk from 'redux-thunk';
 
@@ -21,7 +20,7 @@ const rootReducer = combineReducers({
 
 const reducer = persistReducer(config, rootReducer);
 
-const store = configureStore({
+export const store = configureStore({
     reducer: reducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
@@ -30,9 +29,6 @@ const store = configureStore({
     }).concat(thunk),
 });
 
-// wrapStore(store, {
-//     portName: 'ABH_STORE',
-// });
 
 export type RootState = ReturnType<typeof store.getState>;
 
@@ -41,5 +37,3 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export default store;

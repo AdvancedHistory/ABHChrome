@@ -1,5 +1,3 @@
-import store from "./store";
-
 let history_arr: HistoryEntry[] = [];
 
 // On install, run function

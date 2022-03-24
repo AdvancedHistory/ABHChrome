@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { UPDATE_IMPORTED } from "./settingsReducer";
+import {useAppDispatch} from "./index";
 
 const historyInitialState: HistoryState = {
     open: [],
@@ -24,19 +25,9 @@ const historySlice = createSlice({
            state.open = [];
            console.log("Cleared history");
        },
-       IMPORT_HISTORY: (state) => {
-           state.entries = [];
-           console.log("Importing history... App sending query");
-           chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-               chrome.tabs.sendMessage(tabs[0].id as number, { from: "app", type: "GetHistory" }, response => {
-                   if (response && response.history && response.history.entries > 0) {
-                       state.entries = response.history;
-                       UPDATE_IMPORTED();
-                       console.log("History received by app:");
-                       console.log(state.entries);
-                   }
-               });
-           });
+       IMPORT_HISTORY: (state, action: PayloadAction<HistoryEntry[]>) => {
+           state.entries = action.payload;
+           console.log("Imported history to redux: " + action.payload.length);
        },
    },
 });
