@@ -17,23 +17,22 @@ enum Pages {
     Settings=2,
 }
 
-// TODO SEE HISTORY STORED HERE?
-// TODO USE PROPS AND PROPS DRILL
-// ONLY WORKS WITH EXTENSION RUNNING I THINK
-let browser_history: any[] = []
-
 const App: FC = () => {
 
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.tabs.sendMessage(tabs[0].id as number, { from: 'app', type: 'GetHistory' }, (response) => {
-            if(response){
-                browser_history = response.history;
-                console.log("History received");
+    const [active_tab, switch_tab]  = useState<number>(0);
+    const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
+
+    useEffect(() => {
+
+        chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
+            if (response) {
+                set_browser_history(response.history);
+                console.log("App script got history from service worker:");
+                console.log(response.history);
+
             }
         });
-    });
-
-    const [active_tab, switch_tab]  = useState<number>(0);
+    }, []);
 
     return (
         <div className="App">
@@ -48,3 +47,20 @@ const App: FC = () => {
 };
 
 export default App;
+
+
+// chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+//     console.log("App requesting history from tab: ", tabs[0].url);
+//     chrome.tabs.sendMessage(tabs[0].id as number, { from: 'app', type: 'SendHistory' }, (response) => {
+//         if(response){
+//             browser_history = response.history;
+//             console.log("History received");
+//         }
+//     });
+// });
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//     console.log(request);
+//     if(request.from === "content-script" && request.type === "SendHistory"){
+//         sendResponse({success: true});
+//     }
+// });

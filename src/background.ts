@@ -24,13 +24,19 @@ const getHistory = () => {
                 link: item.url as string,
             });
         }
-        //console.log("Read history");
-        //console.log(history_arr);
     });
 };
 
 getHistory();
 
+// Event listener for recieveing messages from content script
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.to === "background" && request.type === "GetHistory") {
+            sendResponse({ history: history_arr });
+        }
+    }
+);
 
 // // Event listener for each minute
 // chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -43,12 +49,3 @@ getHistory();
 //        //store.dispatch(ADD_OPEN_TAB(tab.url as string));
 //    }
 // });
-
-// Event listener for recieveing messages from content script
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        if (request.from === "content-script" && request.type === "GetHistory") {
-            sendResponse({ history: history_arr });
-        }
-    }
-);
