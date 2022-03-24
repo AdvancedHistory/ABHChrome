@@ -20,14 +20,14 @@ enum Pages {
 // TODO SEE HISTORY STORED HERE?
 // TODO USE PROPS AND PROPS DRILL
 // ONLY WORKS WITH EXTENSION RUNNING I THINK
-let history: any[] = []
+let browser_history: any[] = []
 
 const App: FC = () => {
 
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id as number, { from: 'app', type: 'GetHistory' }, (response) => {
             if(response){
-                history = response.history;
+                browser_history = response.history;
                 console.log("History received");
             }
         });
@@ -39,7 +39,7 @@ const App: FC = () => {
         <div className="App">
             <Bar  active={active_tab} update={switch_tab}/>
             <div id="bottom">
-                {active_tab === Pages.History ? <History /> : ""}
+                {active_tab === Pages.History ? <History browser_history={browser_history}/> : ""}
                 {active_tab === Pages.Visualize ? <Visualize /> : ""}
                 {active_tab === Pages.Settings ? <Settings /> : ""}
             </div>

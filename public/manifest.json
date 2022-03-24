@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "index.html"
+    "default_title":"Open ABH"
   },
   "background": {
     "service_worker": "./static/js/background.js"

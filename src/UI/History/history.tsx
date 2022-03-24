@@ -1,6 +1,6 @@
 import React, {FC, useState, useEffect}  from "react";
 import Search from "../Search/search";
-//import Filter from "../Filter/filter";
+import Filter from "../Filter/filter";
 import "./history.css";
 
 type history_element = {
@@ -18,7 +18,7 @@ const display = (item:history_element, key:number) => {
     );
 }
 
-const History: FC = () => {
+const History: FC<{browser_history:any[]}> = ({browser_history}) => {
     const dumb_data:history_element[]  = [
         {date:"1/22/2020",time:"12:05",title:"HTML Links Hyperlinks",link:"https://www.w3schools.com/html/"},
         {date:"1/22/2020",time:"12:06",title:"Slack",link:"slack.com"},
@@ -37,7 +37,6 @@ const History: FC = () => {
     }
 
     useEffect(() => {
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const handleEsc = (event: any) => {
       if (event.keyCode === 27){
         toggle_filter_page(false);
@@ -66,7 +65,7 @@ const History: FC = () => {
                 </div>*/}
             </div>
 
-            {/*TODO FIX ME // filter_page? <Filter  start_date={update_start} end_date={update_end}/>:""*/}
+            {filter_page? <Filter  start_date={update_start} end_date={update_end} close={toggle_filter_page}/>:""}
 
             <div id="data_header">
                 <div id="date">Date</div>
@@ -76,7 +75,7 @@ const History: FC = () => {
             </div>
 
             <div id="data">
-                {dumb_data.map((el,i) => display(el,i))}
+                {browser_history.map((el,i) => display(el,i))}
             </div>
 
         </div>

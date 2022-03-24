@@ -7,6 +7,10 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log("Installed Advanced Browser History!");
 });
 
+chrome.action.onClicked.addListener(() => {
+    chrome.tabs.create({'url':"index.html"});
+});
+
 const getHistory = () => {
     chrome.history.search({text: "", maxResults: 10000, startTime: 0}, (historyItems) => {
         history_arr = [];
