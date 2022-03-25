@@ -87,7 +87,7 @@ const History: FC<{browser_history:history_element[]}> = ({browser_history}) => 
             </div>
 
             <div id="data">
-                {browser_history!==undefined?[...browser_history].filter(filter_mask).sort(sort_key).map((el,i) => display(el,i)):""}
+                {browser_history!==undefined?browser_history.filter(filter_mask).sort(sort_key).map((el,i) => display(el,i)):""}
             </div>
 
         </div>
