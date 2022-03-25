@@ -29,7 +29,7 @@ const Bar: FC<{active:number,update:(arg0:number)=>void}> = ({active,update}) =>
             </div>
             <div id="settings" className="bar_item">
                 <div style={active===2?selected:not_selected} onClick={() => clicked(2)}>
-                    ⚙
+                    <i className="material-icons">settings</i>
                 </div>
             </div>
         </ div>

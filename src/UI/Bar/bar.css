@@ -4,7 +4,7 @@
     text-align: center;
     color: var(--text);
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr 0.3fr;
+    grid-template-columns: 1fr 1fr 10fr 0.3fr;
     column-gap: 10px;
 }
 
@@ -25,12 +25,14 @@
  .bar_item>div {
     font-size: 0.7em;
     box-sizing: border-box;
+    height: 1.5em;
     border: solid var(--alt);
     border-bottom: none;
     color:  var(--alt);
-    padding: 0 10px;
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
+    text-align: center;
+    justify-content: center;
  }
 
  .bar_item>div:hover {
