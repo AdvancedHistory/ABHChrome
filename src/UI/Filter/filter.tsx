@@ -1,22 +1,33 @@
-import React, {FC, ChangeEvent, useState}  from 'react';
+import React, {FC, ChangeEvent, useEffect}  from 'react';
 import './filter.css';
 
-const Filter: FC<{start_date:(arg0:string)=>void,end_date:(arg0:string)=>void,close:(arg0:boolean)=>void}> =  ({start_date,end_date,close})  => {
-    const [min_date, set_min_date] = useState<string>("");
-    const set_start = (date:string) => {
-        set_min_date(date);
-        start_date(date);
-    };
+const Filter: FC<{dates:string[],set_dates:((arg0:string)=>void)[],close:(arg0:boolean)=>void}> =  ({dates,set_dates,close})  => {
 
-    const today = (new Date()).toISOString().substr(0,10);
+    useEffect(() => {
+        const handleEsc = (event: any) => {
+            if (event.keyCode === 27){
+                close(false);
+            }
+        };
+        window.addEventListener("keydown", handleEsc);
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+    });
+
+    const today = (new Date()).toISOString().substring(0,10);
     return (
         <div id="filter_box">
             <div id="darken" onClick={() => close(false)}/>
             <div id="box">
-                Start Date
-                <input type="date" max={today} onChange={(e: ChangeEvent<HTMLInputElement>) => set_start(e.target.value)}/>
-                End Date
-                <input type="date" min={min_date} max={today} onChange={(e: ChangeEvent<HTMLInputElement>) => end_date(e.target.value)}/>
+                <div>
+                    Start Date
+                    <input type="date" value={dates[0]} max={today} onChange={(e: ChangeEvent<HTMLInputElement>) => set_dates[0](e.target.value)}/>
+                </div>
+                <div>
+                    End Date
+                    <input type="date" value={dates[1]} min={dates[0]} max={today} onChange={(e: ChangeEvent<HTMLInputElement>) => set_dates[1](e.target.value)}/>
+                </div>
             </div>
         </div>
     );

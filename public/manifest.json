@@ -19,7 +19,6 @@
     }
   ],
   "icons": {
-    "192": "./static/media/logo192.png",
     "512": "./static/media/logo512.png"
   },
   "permissions": ["tabs", "activeTab", "storage", "scripting", "history", "alarms"]

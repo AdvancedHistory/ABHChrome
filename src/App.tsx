@@ -27,7 +27,8 @@ const App: FC = () => {
 
     useEffect(() => {
         console.log("Entries: ", entries);
-        if(entries && entries.length === 0) {
+        //if(entries && entries.length === 0) {
+        if(true) { //fetches every load
             console.log("Importing history from browser");
             chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
                 if (response) {
