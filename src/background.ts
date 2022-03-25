@@ -9,7 +9,7 @@ chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({'url':"index.html"});
 });
 
-const getHistory = () => {
+const getBrowserHistory = () => {
     chrome.history.search({text: "", maxResults: 10000, startTime: 0}, (historyItems) => {
         history_arr = [];
         for (let i = 0; i < historyItems.length; i++) {
@@ -25,7 +25,7 @@ const getHistory = () => {
     });
 };
 
-getHistory();
+getBrowserHistory();
 
 // Event listener for recieveing messages from content script
 chrome.runtime.onMessage.addListener(

@@ -25,24 +25,29 @@ const App: FC = () => {
     const [active_tab, switch_tab]  = useState<number>(0);
     const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
 
+    function getServiceWorkerHistory(){
+        console.log("Importing history from browser");
+        chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
+            if (response) {
+                set_browser_history(response.history);
+                console.log("App script got history from service worker");
+                console.log(response.history);
+                dispatch(SET_HISTORY(response.history));
+            }
+        });
+    }
+
     useEffect(() => {
-        console.log("Entries: ", entries);
+
+        console.log("Cached entries: ", entries);
         //if(entries && entries.length === 0) {
         if(true) { //fetches every load
-            console.log("Importing history from browser");
-            chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
-                if (response) {
-                    set_browser_history(response.history);
-                    console.log("App script got history from service worker");
-                    console.log(response.history);
-                    dispatch(SET_HISTORY(response.history));
-                }
-            });
+            getServiceWorkerHistory();
         } else {
             console.log("App got history from redux");
-            // @ts-ignore
             set_browser_history(entries);
         }
+
     }, []);
 
     return (
