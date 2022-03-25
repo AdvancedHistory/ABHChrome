@@ -6,7 +6,7 @@ import Settings from "./UI/Settings/settings";
 import Bar from "./UI/Bar/bar";
 
 import { useAppDispatch, useAppSelector } from "./store";
-import { IMPORT_HISTORY } from "./store/historyReducer";
+import { SET_HISTORY } from "./store/historyReducer";
 
 type AppProps = { history: HistoryState , settings: SettingsState }
 
@@ -35,7 +35,7 @@ const App: FC = () => {
                     set_browser_history(response.history);
                     console.log("App script got history from service worker");
                     console.log(response.history);
-                    dispatch(IMPORT_HISTORY(response.history));
+                    dispatch(SET_HISTORY(response.history));
                 }
             });
         } else {
