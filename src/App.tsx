@@ -22,6 +22,7 @@ const App: FC = () => {
 
 
     const { entries } = useAppSelector((state) => state.history );
+    const { categories } = useAppSelector((state) => state.categories );
 
     const [active_tab, switch_tab]  = useState<number>(0);
     const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
@@ -40,12 +41,27 @@ const App: FC = () => {
             }
         });
     }, []);
-
+    const category_history = [...browser_history];
+    category_history.forEach((item:HistoryEntry) => {
+        if(item.categories===undefined){
+            item.categories=[]
+            for(let cat=0; cat < categories.length; cat++) {
+                for(let pat=0; pat< categories[cat].patterns.length; pat++) {
+                    if(item.title.match(new RegExp(categories[cat].patterns[pat])) !== null || item.url.match(new RegExp(categories[cat].patterns[pat])) !== null){
+                        if(item.categories!==undefined){
+                            item.categories.push(categories[cat].name);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    });
     return (
         <div className="App">
             <Bar  active={active_tab} update={switch_tab}/>
             <div id="bottom">
-                {active_tab === Pages.History ? <History browser_history={browser_history}/> : ""}
+                {active_tab === Pages.History ? <History browser_history={category_history}/> : ""}
                 {active_tab === Pages.Visualize ? <Visualize /> : ""}
                 {active_tab === Pages.Settings ? <Settings /> : ""}
             </div>
@@ -54,4 +70,3 @@ const App: FC = () => {
 };
 
 export default App;
-

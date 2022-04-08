@@ -2,6 +2,7 @@ type HistoryEntry = {
     title: string;
     url: string;
     time: number;
+    categories?:string[];
 };
 
 // A user-defined category for filtering history entries
@@ -22,4 +23,3 @@ type SettingsState = {
 type CategoryState = {
     categories: Category[],
 };
-

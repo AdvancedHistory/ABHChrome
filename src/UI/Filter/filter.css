@@ -32,6 +32,16 @@
     border-radius: 1em;
     border: solid var(--alt);
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: space-around;
+    flex-direction: column;
+}
+#dates {
+    display: flex;
+    justify-content: space-around;
+}
+#cat_filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
 }

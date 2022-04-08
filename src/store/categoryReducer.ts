@@ -26,6 +26,7 @@ const categorySlice = createSlice({
                 state.categories.push(action.payload)
                 console.log("REDUX: Added category: " + action.payload.name);
             } else {
+                state.categories.splice(index, 1,action.payload);
                 console.log("REDUX: Replaced category with name: '" + action.payload.name + "'");
             }
         },
