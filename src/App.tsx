@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './App.css';
 import History from "./UI/History/history";
 import Visualize from "./UI/Visualize/visualize";
@@ -8,8 +8,6 @@ import Bar from "./UI/Bar/bar";
 import { useAppDispatch, useAppSelector } from "./store";
 import { SET_HISTORY } from "./store/historyReducer";
 
-type AppProps = { history: HistoryState , settings: SettingsState }
-
 enum Pages {
     History=0,
     Visualize=1,
@@ -18,31 +16,29 @@ enum Pages {
 
 const App: FC = () => {
 
+    // Gather the state and dispatch for interacting with the store
     const dispatch = useAppDispatch();
+
+
 
     const { entries } = useAppSelector((state) => state.history );
 
     const [active_tab, switch_tab]  = useState<number>(0);
     const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
 
+    // Once, send a message to the background script to request the history
+    // Until this is loaded, the history will use the previous history in state.
     useEffect(() => {
         console.log("Entries: ", entries);
-        //if(entries && entries.length === 0) {
-        if(true) { //fetches every load
-            console.log("Importing history from browser");
-            chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
-                if (response) {
-                    set_browser_history(response.history);
-                    console.log("App script got history from service worker");
-                    console.log(response.history);
-                    dispatch(SET_HISTORY(response.history));
-                }
-            });
-        } else {
-            console.log("App got history from redux");
-            // @ts-ignore
-            set_browser_history(entries);
-        }
+        console.log("Importing history from browser");
+        chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
+            if (response) {
+                set_browser_history(response.history);
+                console.log("App script got history from service worker");
+                console.log(response.history);
+                dispatch(SET_HISTORY(response.history));
+            }
+        });
     }, []);
 
     return (
@@ -59,19 +55,3 @@ const App: FC = () => {
 
 export default App;
 
-
-// chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-//     console.log("App requesting history from tab: ", tabs[0].url);
-//     chrome.tabs.sendMessage(tabs[0].id as number, { from: 'app', type: 'SendHistory' }, (response) => {
-//         if(response){
-//             browser_history = response.history;
-//             console.log("History received");
-//         }
-//     });
-// });
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     console.log(request);
-//     if(request.from === "content-script" && request.type === "SendHistory"){
-//         sendResponse({success: true});
-//     }
-// });

@@ -1,72 +1,75 @@
-import React, {FC, useState, useEffect}  from "react";
+import React, { FC, useState }  from "react";
 import Search from "../Search/search";
 import Filter from "../Filter/filter";
 import "./history.css";
 
-type history_element = {
-   date:string, time:string, title:string, link:string,
-};
-
-const display = (item:history_element, key:number) => {
+// Returns the HTML for a corresponding history element
+const display = (item:HistoryEntry, key:number) => {
+    const [date, time] = (new Date(item.time)).toLocaleString(navigator.language, {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}).split(", ");
     return (
         <div className="row data_columns" key={key}>
-            <div>{item.date}</div>
-            <div>{item.time}</div>
+            <div>{date}</div>
+            <div>{time}</div>
             <div id="data-title">{item.title}</div>
-            <div id="data-link" ><a href={item.link} target="_blank">{item.link}</a></div>
+            <div id="data-link" ><a href={item.url} target="_blank">{item.url}</a></div>
         </div>
     );
 }
 
-const History: FC<{browser_history:history_element[]}> = ({browser_history}) => {
+const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
 
     const [search_string, update_search] = useState<string>("");
     const [start_date, update_start] = useState<string>("");
     const [end_date, update_end] = useState<string>("");
 
-    const [filter_page, toggle_filter_page] = useState<boolean>(false);
-    const toggle_page = () => {
-        toggle_filter_page(!filter_page);
+    const [filter_page, update_filter_page] = useState<boolean>(false);
+    const toggle_filter_page = () => {
+        update_filter_page(!filter_page);
     }
 
-    const date = (time:string) => {
+    // Helper function to get a date object from a string of user input
+    const get_date = (time:string) => {
         let [year, month, day] = time.split("-");
         return new Date(month + "/" + day + "/" + year);
     };
 
-    const filter_mask = (item:history_element) => {
-        let item_date = new Date(item.date);
-        if(start_date!=="" && item_date < date(start_date)) {
+    // Apply the time and search filters to the history
+    const filter_mask = (item:HistoryEntry) => {
+        if(start_date!=="" && item.time < get_date(start_date).getUTCMilliseconds()) {
             return false;
         }
-        if(end_date!=="" && item_date > date(end_date)) {
+        if(end_date!=="" && item.time > get_date(end_date).getUTCMilliseconds()) {
             return false;
         }
-        return search_string==="" || item.title.toLowerCase().includes(search_string.toLowerCase()) || item.link.toLowerCase().includes(search_string.toLowerCase());
+        return search_string === "" || item.title.toLowerCase().includes(search_string.toLowerCase()) || item.url.toLowerCase().includes(search_string.toLowerCase());
     };
 
     const [sort_by, set_sort] = useState<number>(0);
     const [accending,set_accending] = useState<boolean>(false);
 
-    const sort_date = (a:history_element, b:history_element) => {
-        let date_a = new Date(a.date + " " + a.time);
-        let date_b = new Date(b.date + " " + b.time);
-        if(date_a.getTime() === date_b.getTime()) {return 0;}
-        return (date_a.getTime() < date_b.getTime() && accending)?-1:1;
+    // Sort descending initially or ascending if toggled
+    const sort_date = (a: HistoryEntry, b: HistoryEntry, doAccending: boolean = accending) => {
+        if(doAccending) return (a.time < b.time) ? -1 : 1;
+        else return (a.time > b.time) ? -1 : 1;
     };
 
-    const sort_key = (a:history_element, b:history_element) => {
+    // Determines the sort function to be based on time or alphabetical order
+    const sort_key = (a: HistoryEntry, b: HistoryEntry) => {
         if(sort_by === 0) {
             return sort_date(a,b);
         }
-        if(a.title.toLowerCase() === b.title.toLowerCase()) {return sort_date(a,b)}
+        if(a.title.toLowerCase() === b.title.toLowerCase()) {
+            return sort_date(a,b, false);
+        }
         return (a.title.toLowerCase() < b.title.toLowerCase() ? !accending:accending) ? 1:-1;
     };
+
+    // Builds the history tab including the entries dynamically
     return (
         <div className="history">
             <div id="topbar">
                 <div id="filter">
-                    <div className="top_box" onClick={toggle_page}>
+                    <div className="top_box" onClick={toggle_filter_page}>
                         <i className="material-icons">filter_list</i>
                     </div>
                 </div>
@@ -87,7 +90,7 @@ const History: FC<{browser_history:history_element[]}> = ({browser_history}) => 
             </div>
 
             <div id="data">
-                {browser_history!==undefined?browser_history.filter(filter_mask).sort(sort_key).map((el,i) => display(el,i)):""}
+                {browser_history!==undefined?browser_history.filter(filter_mask).sort(sort_key).splice(0, 500).map((el,i) => display(el,i)):""}
             </div>
 
         </div>
