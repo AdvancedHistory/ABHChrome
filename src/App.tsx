@@ -41,6 +41,8 @@ const App: FC = () => {
             }
         });
     }, []);
+
+    //fills in the categories for every item in the history according to the rules from categories
     const category_history = [...browser_history];
     category_history.forEach((item:HistoryEntry) => {
         if(item.categories===undefined){
@@ -57,6 +59,8 @@ const App: FC = () => {
             }
         }
     });
+
+    //Main Web Layout
     return (
         <div className="App">
             <Bar  active={active_tab} update={switch_tab}/>

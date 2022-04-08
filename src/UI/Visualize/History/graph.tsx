@@ -1,12 +1,15 @@
 import React, {FC}  from "react";
 import "./graph.css";
 
-
+//Used to generate the SVG used for displaying time of browsing
 const Graph: FC<{size:[string,string],browser_data:number[]}> = ({size,browser_data}) => {
+    //path that creates the graph
     let path = "M " + 0 + ", " + (210 - browser_data[0]*200) + " ";
     for(let i = 0; i<browser_data.length; i++){
         path += "L " + i*10 + ", " + (210 - browser_data[i]*200) + " ";
      }
+
+     //svg block
     return (
         <div className="graph" style={{width:size[0],height:size[1]}}>
             <svg preserveAspectRatio="none" viewBox="0 -20 480 250">

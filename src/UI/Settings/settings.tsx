@@ -12,9 +12,11 @@ const Settings: FC = () => {
     const dispatch = useAppDispatch();
     const { categories } = useAppSelector(state => state.categories);
 
+    //Helper funtion for adding a new rule to an existing Category
     const new_rule = (event:React.FormEvent<HTMLFormElement>) => {
-        const reg_cleaner = /[\.\\\[\]\^\$\(\)\?\=\!\<\>\|\-\:\*\+\{\}\,]/gi;
         event.preventDefault();
+        //used to clean regex characters out into escaped characters to prevent accidental matching
+        const reg_cleaner = /[\.\\\[\]\^\$\(\)\?\=\!\<\>\|\-\:\*\+\{\}\,]/gi;
         //@ts-ignore
         const regex:boolean = event.currentTarget.elements[0].checked;
         //@ts-ignore
@@ -23,6 +25,7 @@ const Settings: FC = () => {
         //@ts-ignore
         const category:string = event.currentTarget.elements[2].selectedOptions[0].value;
         const old_category:Category|undefined = categories.find(el => el.name == category);
+        //Applies the new rule
         if (old_category !== undefined && !old_category.patterns.includes(pattern)){
             dispatch(
                 SET_CATEGORY({
@@ -32,6 +35,8 @@ const Settings: FC = () => {
             );
         }
     }
+
+    //helper function to remove a rule from an existing category
     const delete_rule = (category_index:number, rule_index:number) => {
         const category:Category = categories[category_index];
         console.log("Delete ",category.name,category.patterns[rule_index]);
@@ -45,6 +50,7 @@ const Settings: FC = () => {
         );
     }
 
+    //creates the html for a rule to be displayed
     const display_rule = (category_index:number,rule_index:number, categories:Category[]) => {
         return (
             <div className="Rule">
@@ -54,6 +60,8 @@ const Settings: FC = () => {
             </div>
         );
     }
+
+    //creates the html for a category to be displayed
     const display_category = (category:Category,category_index:number) => {
         return (
             <div className="Category" key={category_index}>
@@ -63,6 +71,7 @@ const Settings: FC = () => {
         );
     }
 
+    //creates a new category
     const new_category = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //@ts-ignore
@@ -75,6 +84,7 @@ const Settings: FC = () => {
         );
     }
 
+    //main html
     return (
         <div id="settings">
             <Box size={["40%","80%"]}>

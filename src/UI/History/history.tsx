@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "../../store";
 
 const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
 
+
+    //State Controll for handeling filtering and searching
     const [search_string, update_search] = useState<string>("");
     const [start_date, update_start] = useState<string>("");
     const [end_date, update_end] = useState<string>("");
@@ -18,6 +20,7 @@ const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
         update_filter_page(!filter_page);
     }
 
+    //a list of evert category
     const { categories } = useAppSelector((state) => state.categories );
 
 
@@ -41,7 +44,7 @@ const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
         return new Date(month + "/" + day + "/" + year);
     };
 
-    // Apply the time and search filters to the history
+    // Apply the time, search and category filters to the history
     const filter_mask = (item:HistoryEntry) => {
         if(start_date!=="" && item.time < get_date(start_date).getUTCMilliseconds()) {
             return false;
@@ -57,6 +60,7 @@ const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
         return search_string === "" || item.title.toLowerCase().includes(search_string.toLowerCase()) || item.url.toLowerCase().includes(search_string.toLowerCase());
     };
 
+    //selects the sort type and direction
     const [sort_by, set_sort] = useState<number>(0);
     const [accending,set_accending] = useState<boolean>(false);
 
