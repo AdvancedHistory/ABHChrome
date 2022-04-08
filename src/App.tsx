@@ -62,7 +62,7 @@ const App: FC = () => {
             <Bar  active={active_tab} update={switch_tab}/>
             <div id="bottom">
                 {active_tab === Pages.History ? <History browser_history={category_history}/> : ""}
-                {active_tab === Pages.Visualize ? <Visualize /> : ""}
+                {active_tab === Pages.Visualize ? <Visualize browser_history={category_history}/> : ""}
                 {active_tab === Pages.Settings ? <Settings /> : ""}
             </div>
         </div>
