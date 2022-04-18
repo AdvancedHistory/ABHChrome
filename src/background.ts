@@ -5,29 +5,12 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log("Installed Advanced Browser History!");
 });
 
+// On extension click, make a new tab to the extension's page
 chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({'url':"index.html"});
 });
 
-const getBrowserHistory = () => {
-    chrome.history.search({text: "", maxResults: 10000, startTime: 0}, (historyItems) => {
-        history_arr = [];
-        for (let i = 0; i < historyItems.length; i++) {
-            const item = historyItems[i];
-            const [date, time] = (new Date(item.lastVisitTime as number)).toLocaleString(navigator.language, {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone}).split(", ");
-            history_arr.push({
-                date: date,
-                time: time,
-                title: item.title as string,
-                link: item.url as string,
-            });
-        }
-    });
-};
-
-getBrowserHistory();
-
-// Event listener for recieveing messages from content script
+// Event listener for when the request history is sent
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.to === "background" && request.type === "GetHistory") {
@@ -36,6 +19,32 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
+// Use Chrome API to get the history of the entire web browser
+const getHistory = () => {
+    chrome.history.search({text: "", maxResults: 100000, startTime: 0}, (historyItems) => {
+        history_arr = [];
+        for (let i = 0; i < historyItems.length; ++i) {
+            const item = historyItems[i];
+            chrome.history.getVisits({url: item.url as string}).then((visits) => {
+                visits.map((visit) => {
+                    history_arr.push({
+                        url: item.url as string,
+                        title: item.title as string,
+                        time: visit.visitTime as number,
+                    });
+                });
+            });
+        }
+        history_arr.sort((a, b) => {
+            return b.time - a.time;
+        });
+        console.log(history_arr);
+    });
+};
+
+getHistory();
+
+// Old code we may want to use later
 // // Event listener for each minute
 // chrome.alarms.onAlarm.addListener(function(alarm) {
 //     getHistory();

@@ -10,6 +10,7 @@ import './index.css';
 
 const persistor = persistStore(store);
 
+// Render the react app with the redux store
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './App.css';
 import History from "./UI/History/history";
 import Visualize from "./UI/Visualize/visualize";
@@ -8,8 +8,6 @@ import Bar from "./UI/Bar/bar";
 import { useAppDispatch, useAppSelector } from "./store";
 import { SET_HISTORY } from "./store/historyReducer";
 
-type AppProps = { history: HistoryState , settings: SettingsState }
-
 enum Pages {
     History=0,
     Visualize=1,
@@ -18,14 +16,21 @@ enum Pages {
 
 const App: FC = () => {
 
+    // Gather the state and dispatch for interacting with the store
     const dispatch = useAppDispatch();
 
+
+
     const { entries } = useAppSelector((state) => state.history );
+    const { categories } = useAppSelector((state) => state.categories );
 
     const [active_tab, switch_tab]  = useState<number>(0);
     const [browser_history, set_browser_history] = useState<HistoryEntry[]>([]);
 
-    function getServiceWorkerHistory(){
+    // Once, send a message to the background script to request the history
+    // Until this is loaded, the history will use the previous history in state.
+    useEffect(() => {
+        console.log("Entries: ", entries);
         console.log("Importing history from browser");
         chrome.runtime.sendMessage({to: "background", type: "GetHistory"}, function (response) {
             if (response) {
@@ -35,27 +40,33 @@ const App: FC = () => {
                 dispatch(SET_HISTORY(response.history));
             }
         });
-    }
-
-    useEffect(() => {
-
-        console.log("Cached entries: ", entries);
-        //if(entries && entries.length === 0) {
-        if(true) { //fetches every load
-            getServiceWorkerHistory();
-        } else {
-            console.log("App got history from redux");
-            set_browser_history(entries);
-        }
-
     }, []);
 
+    //fills in the categories for every item in the history according to the rules from categories
+    const category_history = [...browser_history];
+    category_history.forEach((item:HistoryEntry) => {
+        if(item.categories===undefined){
+            item.categories=[]
+            for(let cat=0; cat < categories.length; cat++) {
+                for(let pat=0; pat< categories[cat].patterns.length; pat++) {
+                    if(item.title.match(new RegExp(categories[cat].patterns[pat])) !== null || item.url.match(new RegExp(categories[cat].patterns[pat])) !== null){
+                        if(item.categories!==undefined){
+                            item.categories.push(categories[cat].name);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    //Main Web Layout
     return (
         <div className="App">
             <Bar  active={active_tab} update={switch_tab}/>
             <div id="bottom">
-                {active_tab === Pages.History ? <History browser_history={browser_history}/> : ""}
-                {active_tab === Pages.Visualize ? <Visualize /> : ""}
+                {active_tab === Pages.History ? <History browser_history={category_history}/> : ""}
+                {active_tab === Pages.Visualize ? <Visualize browser_history={category_history}/> : ""}
                 {active_tab === Pages.Settings ? <Settings /> : ""}
             </div>
         </div>
@@ -63,20 +74,3 @@ const App: FC = () => {
 };
 
 export default App;
-
-
-// chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-//     console.log("App requesting history from tab: ", tabs[0].url);
-//     chrome.tabs.sendMessage(tabs[0].id as number, { from: 'app', type: 'SendHistory' }, (response) => {
-//         if(response){
-//             browser_history = response.history;
-//             console.log("History received");
-//         }
-//     });
-// });
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     console.log(request);
-//     if(request.from === "content-script" && request.type === "SendHistory"){
-//         sendResponse({success: true});
-//     }
-// });

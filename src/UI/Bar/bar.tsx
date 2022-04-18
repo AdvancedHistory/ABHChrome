@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import "./bar.css";
 
+//the top display bar for switching between History, Vizualizaiton and Settings
 const Bar: FC<{active:number,update:(arg0:number)=>void}> = ({active,update}) => {
-
     const selected = {
         backgroundColor: 'var(--alt)',
         color:  'var(--back)',

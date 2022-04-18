@@ -1,1 +1,13 @@
 @import "../../theme.css";
+
+.visualize {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+svg {
+    width: 100%;
+}
