@@ -16,6 +16,7 @@ const Settings: FC = () => {
     const new_rule = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //used to clean regex characters out into escaped characters to prevent accidental matching
+        // eslint-disable-next-line
         const reg_cleaner = /[\.\\\[\]\^\$\(\)\?\=\!\<\>\|\-\:\*\+\{\}\,]/gi;
         //@ts-ignore
         const regex:boolean = event.currentTarget.elements[0].checked;

@@ -19,8 +19,6 @@ const App: FC = () => {
     // Gather the state and dispatch for interacting with the store
     const dispatch = useAppDispatch();
 
-
-
     const { entries } = useAppSelector((state) => state.history );
     const { categories } = useAppSelector((state) => state.categories );
 

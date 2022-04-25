@@ -44,7 +44,7 @@
     ],
     "comma-dangle": [
       "error",
-      "never"
+      "always"
     ],
     "react/jsx-indent": [
       "error",

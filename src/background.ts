@@ -20,6 +20,7 @@ chrome.runtime.onMessage.addListener(
 );
 
 // Use Chrome API to get the history of the entire web browser
+/*eslint-disable*/
 const getHistory = () => {
     chrome.history.search({text: "", maxResults: 100000, startTime: 0}, (historyItems) => {
         history_arr = [];
@@ -38,9 +39,9 @@ const getHistory = () => {
         history_arr.sort((a, b) => {
             return b.time - a.time;
         });
-        console.log(history_arr);
     });
 };
+/*eslint-enable*/
 
 getHistory();
 
