@@ -1,6 +1,6 @@
 ## Format
 
-###TypeScript
+### TypeScript
 Usage of the `any` type is frowned upon; only use it for a type which we are currently unsure of in development.  
 Functions should be declared in the following format where the open bracket is on the same line as the function definition separated by a space:
 ```TypeScript
