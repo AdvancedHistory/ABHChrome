@@ -4,7 +4,7 @@ import "./visualize.css";
 import Chart from "./PiChart/chart";
 import Graph from "./History/graph";
 
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppSelector } from "../../store";
 
 
 //creates a pi chart of the diffrent categories

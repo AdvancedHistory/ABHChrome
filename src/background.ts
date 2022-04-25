@@ -26,7 +26,7 @@ const getHistory = () => {
         for (let i = 0; i < historyItems.length; ++i) {
             const item = historyItems[i];
             chrome.history.getVisits({url: item.url as string}).then((visits) => {
-                visits.map((visit) => {
+                visits.forEach((visit) => {
                     history_arr.push({
                         url: item.url as string,
                         title: item.title as string,

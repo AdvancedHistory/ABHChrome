@@ -3,7 +3,7 @@ import Search from "../Search/search";
 import Filter from "../Filter/filter";
 import "./history.css";
 
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppSelector } from "../../store";
 
 
 
@@ -32,7 +32,7 @@ const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
                 <div>{date}</div>
                 <div>{time}</div>
                 <div id="data-title">{item.title}</div>
-                <div id="data-link" ><a href={item.url} target="_blank">{item.url}</a></div>
+                <div id="data-link" ><a href={item.url} target="_blank" rel="noreferrer">{item.url}</a></div>
                 <div id="categories" >{item.categories?item.categories.join(", "):""}</div>
             </div>
         );

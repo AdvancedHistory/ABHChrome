@@ -1,7 +1,7 @@
 import React, {FC, ChangeEvent, useEffect}  from 'react';
 import './filter.css';
 
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppSelector } from "../../store";
 
 
 //Page Used as a Pop up to filter

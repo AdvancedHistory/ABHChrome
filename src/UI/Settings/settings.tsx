@@ -2,7 +2,7 @@ import React, {FC}  from "react";
 import "./settings.css";
 
 import { useAppDispatch, useAppSelector } from "../../store";
-import { ADD_CATEGORY, SET_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES } from "../../store/categoryReducer";
+import { ADD_CATEGORY, SET_CATEGORY, REMOVE_CATEGORY } from "../../store/categoryReducer";
 import "../../types.ts";
 
 import Box from "./Box/box";
@@ -24,7 +24,7 @@ const Settings: FC = () => {
         const rule = regex?pattern:(".*"+pattern.trim().replaceAll(reg_cleaner, m => '\\'+m)+".*");
         //@ts-ignore
         const category:string = event.currentTarget.elements[2].selectedOptions[0].value;
-        const old_category:Category|undefined = categories.find(el => el.name == category);
+        const old_category:Category|undefined = categories.find(el => el.name === category);
         //Applies the new rule
         if (old_category !== undefined && !old_category.patterns.includes(pattern)){
             dispatch(
