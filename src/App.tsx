@@ -38,7 +38,7 @@ const App: FC = () => {
                 dispatch(SET_HISTORY(response.history));
             }
         });
-    }, [dispatch, entries]);
+    }, []);
 
     //fills in the categories for every item in the history according to the rules from categories
     const category_history = [...browser_history];

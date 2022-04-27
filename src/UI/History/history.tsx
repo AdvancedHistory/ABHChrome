@@ -110,7 +110,6 @@ const History: FC<{browser_history:HistoryEntry[]}> = ({browser_history}) => {
             <div id="data">
                 {browser_history!==undefined?browser_history.filter(filter_mask).sort(sort_key).splice(0, 500).map((el,i) => display(el,i)):""}
             </div>
-
         </div>
     );
 };
