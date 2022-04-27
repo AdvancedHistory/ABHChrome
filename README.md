@@ -5,11 +5,10 @@ You can install npm from [here](https://docs.npmjs.com/downloading-and-installin
 
 In the project directory, run
 #### `npm install`
-to install the dependencies.
-A full list of dependencies is [here](DEPENDENCIES.md).
+to install the dependencies.\
+A full list of dependencies can be found [here](DEPENDENCIES.md).
 
 ## Available Scripts
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -27,7 +26,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 You must have already run `npm install` begin working on the extension.\
 Once you have done that, you can run `npm build` to build the extension to the build directory.\
 After this, on chrome: 
-- Navigate to chrome://extensions
+- Navigate to `chrome://extensions`
 - Enable "Developer mode" in the top right corner of the page
 - Click on the "Load unpacked" button
 - Navigate to the build directory and open the `build/` folder
@@ -40,4 +39,4 @@ When you are done with development, you can uninstall the extension by clicking 
 
 ## Developement
 
-Before Commiting please read through the format specifications [here](FORMAT.md).
+Before committing please read through the format specifications [here](FORMAT.md).
