@@ -21,7 +21,7 @@ stuff = {
 ### Components
 All componets will be written as function componets. All Components will be declared using arrow notation with a type of `FC`
 These Functions will start with a capital letter. Parameters will be written in camelCase.
-```TypeScript
+```tsx
 const Component: FC = () => {
   return (
     <div>
