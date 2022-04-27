@@ -18,6 +18,18 @@ stuff = {
   thing2 : Number,
 }
 ```
+### Components
+All componets will be written as function componets. All Components will be declared using arrow notation with a type of `FC`
+These Functions will start with a capital letter. Parameters will be written in camelCase.
+```TypeScript
+const Component: FC = () => {
+  return (
+    <div>
+      Hello World
+    </div>
+  );
+};
+```
 
 ### HTML / JSX
 Indentations are 2 spaces.  
