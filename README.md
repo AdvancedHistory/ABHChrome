@@ -6,6 +6,7 @@ You can install npm from [here](https://docs.npmjs.com/downloading-and-installin
 In the project directory, run
 #### `npm install`
 to install the dependencies.
+A full list of dependencies is [here](DEPENDENCIES.md).
 
 ## Available Scripts
 
@@ -36,3 +37,7 @@ You can enable and disable it with the toggle.
 You can also reload the extension by clicking the reload button instead of removing it and loading it back from unpacked.\
 You can see the logs from the background process in the console by clicking on "Inspect view service worker" on this screen.\
 When you are done with development, you can uninstall the extension by clicking the "Uninstall" button.
+
+## Developement
+
+Before Commiting please read through the format specifications [here](FORMAT.md).
