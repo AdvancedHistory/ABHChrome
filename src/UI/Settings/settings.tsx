@@ -87,7 +87,11 @@ const Settings: FC = () => {
     const new_category = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //@ts-ignore
-        const category_name:string = event.currentTarget.elements[0].value;
+        const category_name:string = event.currentTarget.elements[0].value.trim();
+        if(category_name.length == 0) {
+          alert("Can not submit empty category name");
+          return;
+        }
         dispatch(
             ADD_CATEGORY({
                 name:category_name,
@@ -114,7 +118,7 @@ const Settings: FC = () => {
                 <form className="Form" id="rule_form" onSubmit={new_rule}>
                     <label>Regex:  <input type="checkbox" name="regex"/></label>
                     <label>Pattern:  <input type="text" name="pattern"/></label>
-                    <label>Category:
+                    <label>Category: <br></br>
                         <select name="category">
                             <option value=""></option>
                             {categories.map((el,key) =><option key={key} value={el.name}>{el.name}</option>)}
