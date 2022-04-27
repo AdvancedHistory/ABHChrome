@@ -23,11 +23,22 @@ const Settings: FC = () => {
         //@ts-ignore
         const pattern:string = event.currentTarget.elements[1].value;
         const rule = regex?pattern:(".*"+pattern.trim().replaceAll(reg_cleaner, m => '\\'+m)+".*");
+        
+        let valid_rule = true;
+        try{
+          new RegExp(rule);
+        } catch(error) {
+          let message = String(error);
+          alert(message.substring(12))
+          valid_rule = false;
+        }
+
         //@ts-ignore
         const category:string = event.currentTarget.elements[2].selectedOptions[0].value;
         const old_category:Category|undefined = categories.find(el => el.name === category);
+
         //Applies the new rule
-        if (old_category !== undefined && !old_category.patterns.includes(pattern)){
+        if (valid_rule && old_category !== undefined && !old_category.patterns.includes(pattern)){
             dispatch(
                 SET_CATEGORY({
                     name:category,
